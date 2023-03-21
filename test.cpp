@@ -4,6 +4,10 @@
 #define LSS_SERIAL	(Serial)
 LSS myLSS = LSS(LSS_ID); //creates an LSS obj
 
+#include <EEPROM.h> //adds eeprom library
+
+
+
 void setup() {  
   // put your setup code here, to run once:
   bool toggle = false; 

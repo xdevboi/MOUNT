@@ -18,9 +18,9 @@ void setup() {
   bool left = false; //left movement 
   bool right = false; //right movement 
   bool between = true; //between state
-  int count = 0; //sets the num of times toggle is run 
   float current_position = myLSS.getPosition(); //sets current position
-  
+  bool out; 
+  bool front; 
 }
 
 void loop() {
@@ -37,34 +37,23 @@ void loop() {
     front_position = current_position; 
   }
   // if toggle button is hit 
+  //if between is true or if fold_in is true is when you move out
   if (toggle == true) {
-    between = false; 
-    if (count == 0) { //only run the first time 
-        bool out = false; 
-        bool front = false; 
+    if (between == true || fold_in == true) { //only run the first time 
+        front = false; 
+        between = false; 
         myLSS.move(out_position); //upon the first run through moves the arm to the outwards position
         current_position = myLSS.getPosition();
         delay(2000); //can be changed
         out = true; 
-        count = count + 1; 
     }
     else { //runs every other time 
-        if (out == true) {
-            myLSS.move(front_position); //moves to the front from out
-            current_position = myLSS.getPosition(); 
-            delay(2000); //can change 
-            out = false; 
-            front = true; 
-            count = count + 1; 
-        }
-        else { 
-            myLSS.move(out_position); //moves from the front to out 
-            current_position = myLSS.getPosition();
-            delay(2000); //can change 
-            out = true; 
-            front = false; 
-            count = count + 1; 
-        }
+          myLSS.move(front_position); //moves to the front from out
+          current_position = myLSS.getPosition(); 
+          delay(2000); //can change 
+          out = false; 
+          front = true; 
+      }
     }
   }
   if (fold_in == true) {
@@ -88,4 +77,3 @@ void loop() {
     delay(1000); //these values need to be moved around a little bit
     current_position = myLSS.getPosition();
   }
-}

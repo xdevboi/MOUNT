@@ -76,15 +76,17 @@ void loop() {
   }
   if (left == true) {
     //moves left
-    between = false;
-    myLSS.move(-2); //no concept of how much we want the movement to be for left and right
+    between = true;
+    current_position = myLSS.getPosition();
+    myLSS.move(current_position + 2); //no concept of how much we want the movement to be for left and right
     delay(1000); //these values need to be moved around a little bit
     current_position = myLSS.getPosition();
   }
   if (right == true) {
     //moves right
-    between = false; 
-    myLSS.move(-2); //no concept of how much we want the movement to be for left and right
+    between = true; 
+    current_position = myLSS.getPosition();
+    myLSS.move(current_position -2); //no concept of how much we want the movement to be for left and right
     delay(1000); //these values need to be moved around a little bit
     current_position = myLSS.getPosition();
   }

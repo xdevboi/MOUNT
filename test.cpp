@@ -67,21 +67,23 @@ void loop() {
   }
   if (fold_in == true) {
     //moves to the fold in position 
-    between == false; 
+    between = false; 
+    out = false; 
+    front = false; 
     myLSS.move(fold_in_position); 
     current_position = myLSS.getPosition();
     delay(2000);
   }
   if (left == true) {
     //moves left
-    between == false;
+    between = false;
     myLSS.move(-2); //no concept of how much we want the movement to be for left and right
     delay(1000); //these values need to be moved around a little bit
     current_position = myLSS.getPosition();
   }
   if (right == true) {
     //moves right
-    between == false; 
+    between = false; 
     myLSS.move(-2); //no concept of how much we want the movement to be for left and right
     delay(1000); //these values need to be moved around a little bit
     current_position = myLSS.getPosition();

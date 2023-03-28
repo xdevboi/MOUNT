@@ -29,8 +29,8 @@ void setup() {
   bool right = false; //right movement 
   bool between = true; //between state
   float current_position = myLSS.getPosition(); //sets current position
-  bool out; 
-  bool front; 
+  bool out;  //out position 
+  bool front; //front position
 }
 
 void loop() {
@@ -52,13 +52,16 @@ void loop() {
     if (between == true || fold_in == true) { //only run the first time 
         front = false; 
         between = false; 
+        fold_in_position = false; 
+        out = true; 
+        //fold_out
          goToPos(out_position);
         current_position = myLSS.getPosition(); 
-        out = true; 
     } else { //runs every other time 
           goToPos(front_position);
           current_position = myLSS.getPosition(); 
           out = false; 
+          between = false; 
           front = true; 
       }
     }
@@ -66,22 +69,27 @@ void loop() {
   if (fold_in == true) {
     //moves to the fold in position 
     between = false; 
-    out = false; 
-    front = false; 
+    right = false; 
+    toggle = false;
+    left = false; 
     myLSS.move(fold_in_position); 
     current_position = myLSS.getPosition();
     delay(2000);
   }
   if (left == true) {
-    //moves left
     between = true;
+    fold_in_position = false; 
+    right = false; 
+    toggle = false;
     current_position = myLSS.getPosition();
     int target = current_position + 2; 
     goToPos(target);
   }
   if (right == true) {
-    //moves right
-    between = true; 
+    between = true;
+    toggle = false; 
+    fold_in_position = false; 
+    left = false; 
     current_position = myLSS.getPosition();
     int target = current_position - 2; 
     goToPos(target);

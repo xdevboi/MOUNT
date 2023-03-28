@@ -11,6 +11,14 @@ float front_position; //sets the position of iPad in front of chair
 
 //not sure how to set the values of fold_in_position, out_position, and front_position
 
+void goToPos(float targetPos){
+     current_position = myLSS.getPosition(); //gets current position
+    while (targetPos >= current_position /*- threshold*/){ //runs until target position is reached 
+        current_position = myLSS.getPosition(); //updates current position
+
+    }
+}
+
 void setup() {  
   // put your setup code here, to run once
   bool toggle = false; //toggles between front and out 

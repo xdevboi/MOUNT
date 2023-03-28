@@ -11,9 +11,10 @@ float front_position; //sets the position of iPad in front of chair
 
 //not sure how to set the values of fold_in_position, out_position, and front_position
 
-void goToPos(float targetPos){
+void goToPos(float targetPos) {
      current_position = myLSS.getPosition(); //gets current position
-    while (targetPos >= current_position /*- threshold*/){ //runs until target position is reached 
+     LSS.move(targetPos);
+    while (targetPos >= current_position /*- threshold*/) { //runs until target position is reached 
         current_position = myLSS.getPosition(); //updates current position
 
     }
@@ -51,15 +52,12 @@ void loop() {
     if (between == true || fold_in == true) { //only run the first time 
         front = false; 
         between = false; 
-        myLSS.move(out_position); //upon the first run through moves the arm to the outwards position
-        current_position = myLSS.getPosition();
-        delay(2000); //can be changed
+         goToPos(out_position);
+        current_position = myLSS.getPosition(); 
         out = true; 
-    }
-    else { //runs every other time 
-          myLSS.move(front_position); //moves to the front from out
+    } else { //runs every other time 
+          goToPos(front_position);
           current_position = myLSS.getPosition(); 
-          delay(2000); //can change 
           out = false; 
           front = true; 
       }
@@ -78,15 +76,13 @@ void loop() {
     //moves left
     between = true;
     current_position = myLSS.getPosition();
-    myLSS.move(current_position + 2); //no concept of how much we want the movement to be for left and right
-    delay(1000); //these values need to be moved around a little bit
-    current_position = myLSS.getPosition();
+    int target = current_position + 2; 
+    goToPos(target);
   }
   if (right == true) {
     //moves right
     between = true; 
     current_position = myLSS.getPosition();
-    myLSS.move(current_position -2); //no concept of how much we want the movement to be for left and right
-    delay(1000); //these values need to be moved around a little bit
-    current_position = myLSS.getPosition();
+    int target = current_position - 2; 
+    goToPos(target);
   }

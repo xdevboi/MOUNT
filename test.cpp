@@ -24,7 +24,7 @@ int set_foldIn_button = 5; //sets fold in position, used for folding up the arm 
 int left_button = 6; //moves arm to left
 int right_button = 7; //moves arm to right
 
-
+//todo add eeprom
 
 double debounce_time = 30; //debounce time in miliseconds (todo NEEDS TO BE TUNED)
 
@@ -63,7 +63,7 @@ void setup() {
     state = between; //initial state is between
     
 
-
+//todo add eeprom read 
 
 
   
@@ -118,6 +118,8 @@ void loop() {
     }
     else if (current_time - goFold_press_event > debounce_time){
      goFold = true;
+     state = foldedIn;
+     goToPos(foldIn_position);
     }
   }
   else if (digitalRead(goTO_foldIn_button) == LOW){
@@ -136,12 +138,14 @@ void loop() {
      set_inFront = true;
      state = inFront;
     inFront_position = current_position; 
+    //todo add eeprom write
     }
   }
   else if (digitalRead(set_inFront_button) == LOW){
     inFront_press_event = -1;
     set_inFront = false;
   }
+
 
   //set to side debouncing
   if (digitalRead(set_toSide_button) == HIGH && !set_toSide){
@@ -152,6 +156,7 @@ void loop() {
      set_toSide = true;
      state = toSide;
     toSide_position = current_position; 
+    //todo add eeprom write
     }
   }
   else if (digitalRead(set_foldIn_button) == LOW){
@@ -170,6 +175,7 @@ void loop() {
      set_foldIn = true;
      state = foldedIn;
      foldIn_position = current_position; 
+     //todo add eeprom write
     }
   }
   else if (digitalRead(set_foldIn_button) == LOW){

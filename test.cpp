@@ -9,13 +9,13 @@ float foldIn_position; //sets position of iPad in a folded position
 float toSide_position; //sets the position of iPad away from chair 
 float inFront_position; //sets the position of iPad in front of chair
 
-float current_position;
+float current_position; //stores the current position of the servo in *todo add unit of measurment*
 float current_time; //stores current time in miliseconds
 
 enum state {between, foldedIn, inFront, toSide}; //positions the arm can be in
 
 
-//button assignments (todo NEEDS TO BE ASSIGNED RIGHT PORT NUMBERS)
+//button assignments (todo NEEDS TO BE ASSIGNED CORRECT PORT/PIN NUMBERS)
 int toggle_button = 1; //button that toggles between two main defaults (to side and in front)
 int goTO_foldIn_button = 2; //button that sends arm to fold up position
 int set_inFront_button = 3; //sets the in front position (pos stored in eeprom)

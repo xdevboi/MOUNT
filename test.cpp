@@ -53,7 +53,7 @@ double debounce_time = 30; //debounce time in miliseconds (todo NEEDS TO BE TUNE
 void goToPos(float targetPos) {
      current_position = myLSS.getPosition(); //gets current position
      LSS.move(targetPos);
-    while(targetPos >= current_position /*- threshold*/){ //runs until target position is reached 
+    while(abs(targetPos) >= abs(current_position) /*- threshold*/){ //runs until target position is reached 
         current_position = myLSS.getPosition(); //updates current position
     }
 }

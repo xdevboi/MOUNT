@@ -187,12 +187,12 @@ void loop() {
 
   if (digitalRead(left_button)) {
     state = between;
-    float target = current_position + 2; //make sure this moves the right direction  
+    float target = current_position + 2; //todo make sure this moves the right direction  
     goToPos(target);
   }
   if (digitalRead(right_button)) {
     state = between;
-    float target = current_position - 2; //make sure this moves the right direction 
+    float target = current_position - 2; //todo make sure this moves the right direction 
     goToPos(target);
   }
   }

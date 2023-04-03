@@ -55,6 +55,7 @@ void goToPos(float targetPos) {
      LSS.move(targetPos);
     while(abs(targetPos) >= abs(current_position) /*- threshold*/){ //runs until target position is reached 
         current_position = myLSS.getPosition(); //updates current position
+        //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
     }
 }
 

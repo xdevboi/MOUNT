@@ -5,9 +5,9 @@
 LSS myLSS = LSS(LSS_ID); //creates an LSS obj
 
 #include <EEPROM.h> //adds eeprom library
-float foldIn_position; //sets position of iPad in a folded position
-float toSide_position; //sets the position of iPad away from chair 
-float inFront_position; //sets the position of iPad in front of chair
+float foldIn_position = -1800; //sets position of iPad in a folded position
+float toSide_position = -8; //sets the position of iPad away from chair 
+float inFront_position = 1800; //sets the position of iPad in front of chair
 
 float current_position; //stores the current position of the servo in (1/10 deg)
 float current_time; //stores current time in milliseconds
@@ -17,13 +17,13 @@ State state = between; //initial state is between
 
 
 //button assignments (todo NEEDS TO BE ASSIGNED CORRECT PORT/PIN NUMBERS)
-int toggle_button = 1; //button that toggles between two main defaults (to side and in front)
-int goTO_foldIn_button = 2; //button that sends arm to fold up position
+int toggle_button = 7; //button that toggles between two main defaults (to side and in front)
+int goTO_foldIn_button = 9; //button that sends arm to fold up position
 int set_inFront_button = 3; //sets the in front position (pos stored in eeprom)
 int set_toSide_button = 4; //sets to the side position (pos stored in eeprom)
 int set_foldIn_button = 5; //sets fold in position, used for folding up the arm on the bus (pos stored in eeprom)
 int left_button = 6; //moves arm to left
-int right_button = 7; //moves arm to right
+int right_button = 8; //moves arm to right
 
 //todo add eeprom
 
@@ -52,10 +52,16 @@ double debounce_time = 30; //debounce time in milliseconds (todo NEEDS TO BE TUN
 
 
 void goToPos(float targetPos) {
+      targetPos = targetPos + 500;
      current_position = myLSS.getPosition(); //gets current position
+     delay(100);
      myLSS.move(targetPos);
-    while(abs(targetPos) >= abs(current_position) /*- threshold*/){ //runs until target position is reached 
+    while(1 <= abs(abs(current_position) - abs(targetPos))   /*- threshold*/){ //runs until target position is reached 
+        myLSS.move(targetPos);
+        delay(100);
         current_position = myLSS.getPosition(); //updates current position
+        //Serial.println(current_position);   
+        //Serial.println(targetPos);            
         //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
     }
 }
@@ -84,7 +90,9 @@ void setup() {
 
 void loop() {
 
-  current_position = myLSS.getPosition(); //sets current position
+  //current_position = myLSS.getPosition(); //sets current position
+  //delay(100);
+  //Serial.println(current_position);
   current_time = millis(); //stores current time
 
 
@@ -92,10 +100,13 @@ void loop() {
 
 //toggle button debouncing
   if (digitalRead(toggle_button) == HIGH && !toggle){
+    Serial.println("toggled");
+    Serial.println(state != toSide);
     if(toggle_press_event == -1){
      toggle_press_event = current_time; 
     }
     else if (current_time - toggle_press_event > debounce_time){
+      Serial.println("timer works");
      toggle = true;
      if (state != toSide) {
         state = toSide;
@@ -107,6 +118,7 @@ void loop() {
     }
   }
   else if (digitalRead(toggle_button) == LOW){
+   // Serial.println("not_toggled");
     toggle_press_event = -1;
     toggle = false;
   }

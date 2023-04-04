@@ -57,11 +57,12 @@ void goToPos(float targetPos) {
         current_position = myLSS.getPosition(); //updates current position
         //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
     }
+    return;
 }
 
 
 void setup() { 
-    state = between; //initial state is between
+    state state = between; //initial state is between
     
 
 //todo add eeprom read 

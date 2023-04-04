@@ -53,7 +53,7 @@ double debounce_time = 30; //debounce time in milliseconds (todo NEEDS TO BE TUN
 
 void goToPos(float targetPos) {
      current_position = myLSS.getPosition(); //gets current position
-     LSS.move(targetPos);
+     myLSS.move(targetPos);
     while(abs(targetPos) >= abs(current_position) /*- threshold*/){ //runs until target position is reached 
         current_position = myLSS.getPosition(); //updates current position
         //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
@@ -68,7 +68,7 @@ void setup() {
 //todo add eeprom read 
 
 
-  
+  LSS::initBus(LSS_SERIAL, LSS_BAUD);
 
   pinMode(toggle_button, INPUT);
   pinMode(goTO_foldIn_button, INPUT);

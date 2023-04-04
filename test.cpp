@@ -10,9 +10,10 @@ float toSide_position; //sets the position of iPad away from chair
 float inFront_position; //sets the position of iPad in front of chair
 
 float current_position; //stores the current position of the servo in (1/10 deg)
-float current_time; //stores current time in miliseconds
+float current_time; //stores current time in milliseconds
 
-enum state {between, foldedIn, inFront, toSide}; //positions the arm can be in
+enum State {between, foldedIn, inFront, toSide}; //positions the arm can be in
+State state = between; //initial state is between
 
 
 //button assignments (todo NEEDS TO BE ASSIGNED CORRECT PORT/PIN NUMBERS)
@@ -26,7 +27,7 @@ int right_button = 7; //moves arm to right
 
 //todo add eeprom
 
-double debounce_time = 30; //debounce time in miliseconds (todo NEEDS TO BE TUNED)
+double debounce_time = 30; //debounce time in milliseconds (todo NEEDS TO BE TUNED)
 
   //button handlers
     bool toggle = false; //toggles between front and out
@@ -57,12 +58,11 @@ void goToPos(float targetPos) {
         current_position = myLSS.getPosition(); //updates current position
         //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
     }
-    return;
 }
 
 
 void setup() { 
-    state state = between; //initial state is between
+    
     
 
 //todo add eeprom read 
@@ -85,7 +85,7 @@ void setup() {
 void loop() {
 
   current_position = myLSS.getPosition(); //sets current position
-  current_time = milis(); //stores current time
+  current_time = millis(); //stores current time
 
 
 

@@ -9,7 +9,7 @@ float foldIn_position; //sets position of iPad in a folded position
 float toSide_position; //sets the position of iPad away from chair 
 float inFront_position; //sets the position of iPad in front of chair
 
-float current_position; //stores the current position of the servo in *todo add unit of measurment*
+float current_position; //stores the current position of the servo in (1/10 deg)
 float current_time; //stores current time in miliseconds
 
 enum state {between, foldedIn, inFront, toSide}; //positions the arm can be in

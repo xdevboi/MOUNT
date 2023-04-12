@@ -16,14 +16,14 @@ enum State {between, foldedIn, inFront, toSide}; //positions the arm can be in
 State state = between; //initial state is between
 
 
-//button assignments (todo NEEDS TO BE ASSIGNED CORRECT PORT/PIN NUMBERS)
+//button assignments 
 int toggle_button = 7; //button that toggles between two main defaults (to side and in front)
 int goTO_foldIn_button = 9; //button that sends arm to fold up position
-int set_inFront_button = 3; //sets the in front position (pos stored in eeprom)
-int set_toSide_button = 4; //sets to the side position (pos stored in eeprom)
-int set_foldIn_button = 5; //sets fold in position, used for folding up the arm on the bus (pos stored in eeprom)
-int left_button = 6; //moves arm to left
-int right_button = 8; //moves arm to right
+int set_inFront_button = 10; //sets the in front position (pos stored in eeprom)
+int set_toSide_button = 8; //sets to the side position (pos stored in eeprom)
+int set_foldIn_button = 6; //sets fold in position, used for folding up the arm on the bus (pos stored in eeprom)
+int left_button = 5; //moves arm to left
+int right_button = 4; //moves arm to right
 
 //todo add eeprom
 
@@ -56,9 +56,9 @@ void goToPos(float targetPos) {
      current_position = myLSS.getPosition(); //gets current position
      delay(100);
      myLSS.move(targetPos);
-    while(1 <= abs(abs(current_position) - abs(targetPos))   /*- threshold*/){ //runs until target position is reached 
+    while(5 <= abs(abs(current_position) - abs(targetPos))   /*- threshold*/){ //runs until target position is reached 
         myLSS.move(targetPos);
-        delay(100);
+        delay(10);
         current_position = myLSS.getPosition(); //updates current position
         Serial.println(current_position);   
         Serial.println(targetPos);            
@@ -201,12 +201,12 @@ void loop() {
   if (digitalRead(left_button)) {
     Serial.println("sad");
     state = between;
-    float target = current_position + 10; //todo make sure this moves the right direction  
+    float target = current_position + 30; //todo make sure this moves the right direction  
     goToPos(target);
   }
   if (digitalRead(right_button)) {
     state = between;
-    float target = current_position - 2; //todo make sure this moves the right direction 
+    float target = current_position - 30; //todo make sure this moves the right direction 
     goToPos(target);
   }
   }

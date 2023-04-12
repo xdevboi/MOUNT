@@ -48,24 +48,6 @@ double debounce_time = 30; //debounce time in milliseconds (todo NEEDS TO BE TUN
     double goFold_press_event = -1; //-1 indicates timer has not been started
 
 
-void goToDirection(float targetPos) { //sets the target pos well past the real target pos so pid dosn't slow down the speed too much when moving in a direction
-    //targetPos = targetPos + (abs(targetPos)/targetPos) * 500;
-     current_position = myLSS.getPosition(); //gets current position
-     delay(1);
-     myLSS.move(targetPos);
-    while(500 <= abs(abs(current_position) - abs(targetPos))   /*- threshold*/){ //runs until target position - 500 is reached 
-        myLSS.move(targetPos);
-        delay(1);
-        current_position = myLSS.getPosition(); //updates current position
-        //Serial.println(current_position);   
-        //Serial.println(targetPos);            
-        //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
-    }
-    myLSS.move(current_position);
-
-}
-
-
 void goToPos(float targetPos) {
       //targetPos = targetPos + 500;
      current_position = myLSS.getPosition(); //gets current position

@@ -5,9 +5,9 @@
 LSS myLSS = LSS(LSS_ID); //creates an LSS obj
 
 #include <EEPROM.h> //adds eeprom library
-float foldIn_position = -180; //sets position of iPad in a folded position
-float toSide_position = 0; //sets the position of iPad away from chair 
-float inFront_position = 180; //sets the position of iPad in front of chair
+float foldIn_position = 0; //sets position of iPad in a folded position
+float toSide_position = 1800; //sets the position of iPad away from chair 
+float inFront_position = 1800/2 + 1800; //sets the position of iPad in front of chair
 
 float current_position; //stores the current position of the servo in (1/10 deg)
 float current_time; //stores current time in milliseconds
@@ -48,7 +48,22 @@ double debounce_time = 30; //debounce time in milliseconds (todo NEEDS TO BE TUN
     double goFold_press_event = -1; //-1 indicates timer has not been started
 
 
+void goToDirection(float targetPos) { //sets the target pos well past the real target pos so pid dosn't slow down the speed too much when moving in a direction
+    //targetPos = targetPos + (abs(targetPos)/targetPos) * 500;
+     current_position = myLSS.getPosition(); //gets current position
+     delay(1);
+     myLSS.move(targetPos);
+    while(500 <= abs(abs(current_position) - abs(targetPos))   /*- threshold*/){ //runs until target position - 500 is reached 
+        myLSS.move(targetPos);
+        delay(1);
+        current_position = myLSS.getPosition(); //updates current position
+        //Serial.println(current_position);   
+        //Serial.println(targetPos);            
+        //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
+    }
+    myLSS.move(current_position);
 
+}
 
 
 void goToPos(float targetPos) {
@@ -60,8 +75,8 @@ void goToPos(float targetPos) {
         myLSS.move(targetPos);
         delay(10);
         current_position = myLSS.getPosition(); //updates current position
-        Serial.println(current_position);   
-        Serial.println(targetPos);            
+        //Serial.println(current_position);   
+        //Serial.println(targetPos);            
         //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
     }
 }
@@ -100,13 +115,13 @@ void loop() {
 
 //toggle button debouncing
   if (digitalRead(toggle_button) == HIGH && !toggle){
-    Serial.println("toggled");
-    Serial.println(state != toSide);
+   // Serial.println("toggled");
+    //Serial.println(state != toSide);
     if(toggle_press_event == -1){
      toggle_press_event = current_time; 
     }
     else if (current_time - toggle_press_event > debounce_time){
-      Serial.println("timer works");
+     // Serial.println("timer works");
      toggle = true;
      if (state != toSide) {
         state = toSide;
@@ -198,16 +213,51 @@ void loop() {
   }
 
 
-  if (digitalRead(left_button)) {
-    Serial.println("sad");
-    state = between;
-    float target = current_position + 30; //todo make sure this moves the right direction  
-    goToPos(target);
-  }
   if (digitalRead(right_button)) {
+   // Serial.println("sad");
     state = between;
-    float target = current_position - 30; //todo make sure this moves the right direction 
-    goToPos(target);
+     current_position = myLSS.getPosition(); //gets current position
+     delay(1);
+     myLSS.move(3000);
+    while(digitalRead(right_button)){ //runs while button is pressed
+        myLSS.move(3000);
+        delay(1);
+        current_position = myLSS.getPosition(); //updates current position
+        //Serial.println(current_position);   
+        //Serial.println(targetPos);            
+        //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
+    }
+    myLSS.move(current_position);
   }
+
+ if (digitalRead(left_button)) {
+   // Serial.println("sad");
+    state = between;
+     current_position = myLSS.getPosition(); //gets current position
+     delay(1);
+     myLSS.move(0);
+    while(digitalRead(left_button)){ //runs while button is pressed
+        myLSS.move(0);
+        delay(1);
+        current_position = myLSS.getPosition(); //updates current position
+        //Serial.println(current_position);   
+        //Serial.println(targetPos);            
+        //todo add breaking out of this loop if buttons are pressed? or should it just run untill the position is reached?
+    }
+    myLSS.move(current_position);
+  }
+
+
+  //   if (digitalRead(left_button)) {
+  //  // Serial.println("sad");
+  //   state = between;
+  //   float target = current_position + 530; //todo make sure this moves the right direction  
+  //   goToDirection(target);
+  // }
+  // if (digitalRead(right_button)) {
+  //   state = between;
+  //   float target = current_position - 530; //todo make sure this moves the right direction 
+  //   goToDirection(target);
+  // }
   }
   
